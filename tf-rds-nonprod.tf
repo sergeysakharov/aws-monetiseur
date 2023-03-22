@@ -23,10 +23,10 @@ ingress {
 resource "aws_db_instance" "psql-nonprod" {
   identifier             = "psql-nonprod"
   db_name                = "psql-nonprod"
-  instance_class         = "db.t2.micro"
+  instance_class         = "db.t3.micro"
   allocated_storage      = 30
   engine                 = "postgres"
-  engine_version         = "14.6"
+  engine_version         = "14.6-R1"
   skip_final_snapshot    = true
   publicly_accessible    = true
   vpc_security_group_ids = [aws_security_group.tf-sg-psql-nonprod.id]
