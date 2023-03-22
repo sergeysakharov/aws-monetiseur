@@ -1,6 +1,6 @@
 module "tf-ecs-cluster-nonprod" {
   source = "infrablocks/ecs-cluster/aws"
-  version = "5.0.0"
+  version = "6.0.0"
 
   region = "eu-west-3"
   vpc_id = module.vpc-nonprod.vpc_id
@@ -8,7 +8,7 @@ module "tf-ecs-cluster-nonprod" {
 
   component = "tf"
   deployment_identifier = ""
-  associate_public_ip_addresses = true
+  associate_public_ip_addresses = false
   cluster_name = "ecs-nonprod"
 #  cluster_instance_ssh_public_key_path = "~/.ssh/id_rsa.pub"
   cluster_instance_type = "t3a.small"
