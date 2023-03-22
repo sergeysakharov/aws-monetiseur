@@ -3,13 +3,13 @@
 data "aws_vpc" "default" {
   default = true
 }
-resource "random_string" "uddin-db-password" {
+resource "random_string" "psql-nonprod-db-password" {
   length  = 32
   upper   = true
   numeric  = true
   special = false
 }
-resource "aws_security_group" "uddin" {
+resource "aws_security_group" "tf-sg-psql-nonprod" {
   vpc_id      = module.vpc-nonprod.vpc_id
   name     = "tf-sg-psql-nonprod"
   description = "Allow all inbound for Postgres"
@@ -20,17 +20,17 @@ ingress {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_db_instance" "uddin-sameed" {
-  identifier             = "uddin-sameed"
+resource "aws_db_instance" "psql-nonprod" {
+  identifier             = "psql-nonprod"
   db_name                = "psql-nonprod"
   instance_class         = "db.t2.micro"
   allocated_storage      = 30
   engine                 = "postgres"
-  engine_version         = "12.5"
+  engine_version         = "14.6"
   skip_final_snapshot    = true
   publicly_accessible    = true
-  vpc_security_group_ids = [aws_security_group.uddin.id]
+  vpc_security_group_ids = [aws_security_group.tf-sg-psql-nonprod.id]
   username               = "sameed"
-  password               = "random_string.uddin-db-password.result}"
+  password               = "random_string.psql-nonprod-db-password.result}"
 }
 
