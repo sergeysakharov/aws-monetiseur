@@ -11,7 +11,7 @@ resource "random_string" "uddin-db-password" {
 }
 resource "aws_security_group" "uddin" {
   vpc_id      = module.vpc-nonprod.vpc_id
-  db_name     = "psql-nonprod"
+  name     = "tf-sg-psql-nonprod"
   description = "Allow all inbound for Postgres"
 ingress {
     from_port   = 5432
