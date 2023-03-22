@@ -19,7 +19,7 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
 }
 
 resource "aws_subnet" "tf-redis-subnet" {
-  vpc_id            = aws_vpc.redis-subnet.id
+  vpc_id            = aws_vpc.vpc-nonprod.id
   cidr_block        = "10.0.100.0/24"
   availability_zone = "eu-west-3a"
 
