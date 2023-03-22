@@ -25,7 +25,7 @@ module "tf-sg-ecs-nonprod" {
   ]
   tags = {
     Terraform = "true"
-    Environment = var.env.nonprod
+    Environment = var.envnonprod
     Project = var.project
   }
 }
