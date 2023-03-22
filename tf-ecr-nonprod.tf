@@ -1,7 +1,7 @@
 module "ecr-nonprod" {
   source = "terraform-aws-modules/ecr/aws"
 
-  repository_name = var.project-nonprod
+  repository_name = "${var.project}-nonprod"
 
   repository_read_write_access_arns = ["arn:aws:iam::938978445243:user/tf"]
   repository_lifecycle_policy = jsonencode({
