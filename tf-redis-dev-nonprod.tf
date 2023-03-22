@@ -8,5 +8,36 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   parameter_group_name = "default.redis7"
   engine_version       = "7.0"
   port                 = 6379
-  subnet_group_name    = subnet-09d4d7554638fe583
+  subnet_group_name    = tf-redis-subnet-group
+
+  tags = {
+    Terraform = "true"
+    Environment = var.envnonprod
+    Project = var.project
+  }
+
+}
+
+resource "aws_subnet" "tf-redis-subnet" {
+  vpc_id            = aws_vpc.redis-subnet.id
+  cidr_block        = "10.0.100.0/24"
+  availability_zone = "eu-west-3a"
+
+  tags = {
+    Terraform = "true"
+    Environment = var.envnonprod
+    Project = var.project
+  }
+}
+
+resource "aws_elasticache_subnet_group" "tf-redis-subnet-group" {
+  name       = "tf-redis-subnet-group"
+  subnet_ids = [aws_subnet.tf-redis-subet.id]
+  
+  tags = {
+    Terraform = "true"
+    Environment = var.envnonprod
+    Project = var.project
+  }
+
 }
