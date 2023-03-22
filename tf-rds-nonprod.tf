@@ -1,29 +1,31 @@
 data "aws_availability_zones" "available" {}
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "2.77.0"
+#module "vpc" {
+#  source  = "terraform-aws-modules/vpc/aws"
+#  version = "2.77.0"
+#
+#  name                 = "education"
+#  cidr                 = "10.0.0.0/16"
+#  azs                  = data.aws_availability_zones.available.names
+#  public_subnets       = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+#  enable_dns_hostnames = true
+#  enable_dns_support   = true
+#}
 
-  name                 = "education"
-  cidr                 = "10.0.0.0/16"
-  azs                  = data.aws_availability_zones.available.names
-  public_subnets       = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-}
-
-resource "aws_db_subnet_group" "education" {
-  name       = "education"
-  subnet_ids = module.vpc.public_subnets
+resource "aws_db_subnet_group" "tf-rds-nonprod-subnet-group" {
+  name       = "tf-rds-nonprod-subnet-group"
+  subnet_ids = module.vpc-nonprod.public_subnets
 
   tags = {
-    Name = "Education"
+    Terraform = "true"
+    Environment = var.envnonprod
+    Project = var.project
   }
 }
 
-resource "aws_security_group" "rds" {
-  name   = "education_rds"
-  vpc_id = module.vpc.vpc_id
+resource "aws_security_group" "tf-sg-rds-nonprod" {
+  name   = "tf-sg-rds-nonprod"
+  vpc_id = module.vpc-nonprod.vpc_id
 
   ingress {
     from_port   = 5432
@@ -40,12 +42,14 @@ resource "aws_security_group" "rds" {
   }
 
   tags = {
-    Name = "education_rds"
+    Terraform = "true"
+    Environment = var.envnonprod
+    Project = var.project
   }
 }
 
-resource "aws_db_parameter_group" "education" {
-  name   = "education"
+resource "aws_db_parameter_group" "tf-rds-nonprod-param-group" {
+  name   = "tf-rds-nonprod-param-group"
   family = "postgres14"
 
   parameter {
@@ -54,17 +58,17 @@ resource "aws_db_parameter_group" "education" {
   }
 }
 
-resource "aws_db_instance" "education" {
-  identifier             = "education"
+resource "aws_db_instance" "tf-rds-nonprod" {
+  identifier             = "tf-rds-nonprod"
   instance_class         = "db.t3.micro"
   allocated_storage      = 5
   engine                 = "postgres"
   engine_version         = "14.1"
   username               = "psqladmin"
-  password               = "P@ssw0rd"
-  db_subnet_group_name   = aws_db_subnet_group.education.name
-  vpc_security_group_ids = [aws_security_group.rds.id]
-  parameter_group_name   = aws_db_parameter_group.education.name
+  password               = "Zylius34!!"
+  db_subnet_group_name   = aws_db_subnet_group.tf-rds-nonprod-subnet-group.name
+  vpc_security_group_ids = [aws_security_group.tf-sg-rds-nonprod.id]
+  parameter_group_name   = aws_db_parameter_group.tf-rds-nonprod-param-group.name
   publicly_accessible    = true
   skip_final_snapshot    = true
 }
