@@ -2,7 +2,7 @@
 variable "access_key" {}
 variable "secret_key" {}
 
-variable "env.nonprod" {
+variable "envnonprod" {
   type    = string
   default = "nonprod"
 }
