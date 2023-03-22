@@ -6,12 +6,12 @@ data "aws_vpc" "default" {
 resource "random_string" "uddin-db-password" {
   length  = 32
   upper   = true
-  number  = true
+  numeric  = true
   special = false
 }
 resource "aws_security_group" "uddin" {
   vpc_id      = module.vpc-nonprod.vpc_id
-  name        = "uddin"
+  db_name     = "psql-nonprod"
   description = "Allow all inbound for Postgres"
 ingress {
     from_port   = 5432
@@ -22,9 +22,9 @@ ingress {
 }
 resource "aws_db_instance" "uddin-sameed" {
   identifier             = "uddin-sameed"
-  name                   = "uddin"
+  db_name                = "psql-nonprod"
   instance_class         = "db.t2.micro"
-  allocated_storage      = 5
+  allocated_storage      = 30
   engine                 = "postgres"
   engine_version         = "12.5"
   skip_final_snapshot    = true
