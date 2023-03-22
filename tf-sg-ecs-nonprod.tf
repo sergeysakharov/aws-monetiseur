@@ -1,8 +1,8 @@
-module "sg-ecs-dev" {
+module "tf-sg-ecs-nonprod" {
   source = "terraform-aws-modules/security-group/aws"
 
-  name        = "tf-sg-ecs-dev"
-  vpc_id      = module.vpc-dev.vpc_id
+  name        = "tf-sg-ecs-nonprod"
+  vpc_id      = module.vpc-nonprod.vpc_id
 
   ingress_cidr_blocks      = ["10.0.0.0/16"]
   ingress_rules            = ["https-443-tcp"]
@@ -24,8 +24,8 @@ module "sg-ecs-dev" {
     },
   ]
   tags = {
-    project = "tf testing"
-    Terraform   = "true"
-    Environment = var.env
+    Terraform = "true"
+    Environment = var.env.nonprod
+    Project = var.project
   }
 }

@@ -1,10 +1,10 @@
-module "vpc-dev" {
+module "vpc-nonprod" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "vpc-dev"
+  name = "vpc-nonprod"
   cidr = "10.0.0.0/16"
 
-  azs             = ["us-east-1a"]
+  azs             = ["eu-west-3a"]
   private_subnets = ["10.0.1.0/24"]
   public_subnets  = ["10.0.101.0/24"]
 
@@ -13,8 +13,8 @@ module "vpc-dev" {
 
   tags = {
     Terraform = "true"
-    Environment = var.env
-    Project = "tf testing"
+    Environment = var.env.nonprod
+    Project = var.project
   }
 }
 ##
