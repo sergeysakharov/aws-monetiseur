@@ -1,17 +1,5 @@
 data "aws_availability_zones" "available" {}
 
-#module "vpc" {
-#  source  = "terraform-aws-modules/vpc/aws"
-#  version = "2.77.0"
-#
-#  name                 = "education"
-#  cidr                 = "10.0.0.0/16"
-#  azs                  = data.aws_availability_zones.available.names
-#  public_subnets       = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-#  enable_dns_hostnames = true
-#  enable_dns_support   = true
-#}
-
 resource "aws_db_subnet_group" "tf-rds-nonprod-subnet-group" {
   name       = "tf-rds-nonprod-subnet-group"
   subnet_ids = module.vpc-nonprod.public_subnets
@@ -40,8 +28,7 @@ resource "aws_security_group" "tf-sg-rds-nonprod" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
-  tags = {
+    tags = {
     Terraform = "true"
     Environment = var.envnonprod
     Project = var.project
@@ -56,19 +43,31 @@ resource "aws_db_parameter_group" "tf-rds-nonprod-param-group" {
     name  = "log_connections"
     value = "1"
   }
+    tags = {
+    Terraform = "true"
+    Environment = var.envnonprod
+    Project = var.project
+  }
 }
 
 resource "aws_db_instance" "tf-rds-nonprod" {
   identifier             = "tf-rds-nonprod"
   instance_class         = "db.t3.micro"
-  allocated_storage      = 5
+  allocated_storage      = 30
   engine                 = "postgres"
-  engine_version         = "14.1"
+  engine_version         = "14.7"
   username               = "psqladmin"
-  password               = "Zylius34!!"
+  password               = var.pgsql-nonprod-password
   db_subnet_group_name   = aws_db_subnet_group.tf-rds-nonprod-subnet-group.name
   vpc_security_group_ids = [aws_security_group.tf-sg-rds-nonprod.id]
   parameter_group_name   = aws_db_parameter_group.tf-rds-nonprod-param-group.name
   publicly_accessible    = true
   skip_final_snapshot    = true
+
+  tags = {
+    Terraform = "true"
+    Environment = var.envnonprod
+    Project = var.project
+  }
+
 }
