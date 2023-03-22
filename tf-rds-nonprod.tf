@@ -1,3 +1,4 @@
+#URL: https://github.com/hashicorp/learn-terraform-rds
 data "aws_availability_zones" "available" {}
 
 resource "aws_db_subnet_group" "tf-rds-nonprod-subnet-group" {
