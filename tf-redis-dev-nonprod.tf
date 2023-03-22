@@ -8,5 +8,5 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   parameter_group_name = "default.redis7"
   engine_version       = "7.0"
   port                 = 6379
-  subnet_group_name    = module.vpc-nonprod.private_subnets
+  subnet_group_name    = subnet-09d4d7554638fe583
 }
