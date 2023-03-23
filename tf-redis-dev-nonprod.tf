@@ -41,3 +41,12 @@ resource "aws_elasticache_subnet_group" "tf-redis-subnet-group" {
   }
 
 }
+
+resource "aws_security_group" "tf-sg-redis-dev-nonprod" {
+  name = "tf-sg-redis-dev-nonprod"
+}
+
+resource "aws_elasticache_security_group" "tf-esg-redis-dev-nonprod" {
+  name                 = "tf-esg-redis-dev-nonprod"
+  security_group_names = ["${aws_security_group.tf-sg-redis-dev-nonprod.name}"]
+}
