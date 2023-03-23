@@ -9,7 +9,7 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   engine_version       = "7.0"
   port                 = 6379
   subnet_group_name    = "${aws_elasticache_subnet_group.tf-redis-subnet-group.name}"
-  security_group_names   = module.tf-sg-redis-nonprod.name
+  security_group_ids   = [module.tf-sg-redis-nonprod.security_group_id]
   tags = {
     Terraform = "true"
     Environment = var.envnonprod
@@ -17,6 +17,8 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   }
 
 }
+
+#[module.sg-ec2-server-1.security_group_id]
 
 resource "aws_subnet" "tf-redis-subnet" {
   vpc_id            = module.vpc-nonprod.vpc_id
