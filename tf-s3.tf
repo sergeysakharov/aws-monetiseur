@@ -34,7 +34,7 @@ resource "aws_s3_bucket_public_access_block" "mmm1example" {
 resource "aws_s3_bucket_policy" "mmm1example-policy" {
   bucket = aws_s3_bucket.mmm1example.id
 
-  policy = <
+  policy = <<EOF
 {
   "Version": "2012-10-17",
   "Id": "MYBUCKETPOLICY",
