@@ -9,7 +9,7 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   engine_version       = "7.0"
   port                 = 6379
   subnet_group_name    = "${aws_elasticache_subnet_group.tf-redis-subnet-group.name}"
-  security_group_name   = module.tf-sg-redis-nonprod.name
+  security_group_names   = module.tf-sg-redis-nonprod.name
   tags = {
     Terraform = "true"
     Environment = var.envnonprod
