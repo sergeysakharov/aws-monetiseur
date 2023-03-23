@@ -1,8 +1,8 @@
-module "alb" {
+module "tf-alb-nonprod" {
   source  = "terraform-aws-modules/alb/aws"
   version = "~> 6.0"
 
-  name = "my-alb"
+  name = "tf-alb-nonprod"
 
   load_balancer_type = "application"
 
@@ -10,9 +10,9 @@ module "alb" {
   subnets            = module.vpc-nonprod.private_subnets
   security_groups    = ["tf-sg-alb-nonprod"]
 
-  access_logs = {
-    bucket = "my-alb-logs"
-  }
+  #access_logs = {
+  #  bucket = "my-alb-logs"
+  #}
 
   target_groups = [
     {
