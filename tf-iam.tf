@@ -40,8 +40,7 @@ resource "aws_iam_group_membership" "tf-tfdevelopers-members" {
   name = "tf-new-group-membership"
 
   users = [
-    aws_iam_user.tf-developer.name,
-    aws_iam_user.tf-new.name,
+    aws_iam_user.tf-developer.name
   ]
 
   group = aws_iam_group.tf-developers.name
