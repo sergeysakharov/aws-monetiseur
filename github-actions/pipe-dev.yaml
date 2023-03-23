@@ -8,7 +8,7 @@ jobs:
   build:
     name: Build and Deploy to ECS
     runs-on: ubuntu-latest
-    environment: staging
+    environment: dev
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -19,8 +19,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.ECS_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.ECS_AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.GH_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.GH_AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-3
 
       - name: Login to Amazon ECR
@@ -34,37 +34,39 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./
-          file: ./Dockerfile
-          secrets:
-            "GEMS_USERNAME_PASSWORD=${{ secrets.BUNDLE_GEMS__MATCHSPACE__COM }}"
+          file: ./backend.dockerfile
+#          secrets:
+#            "GEMS_USERNAME_PASSWORD=${{ secrets.BUNDLE_GEMS__MATCHSPACE__COM }}"
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.ECR_REPO }}:${{ github.sha }}
+          tags: ${{ secrets.ECR_REPO_NONPROD }}:${{ github.sha }}
+#          tags: ${{ secrets.ECR_REPO }}:${{ github.sha }}
 
-      - name: Download task definition
+#      - name: Download task definition
         run: |
           aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASKDEFINATION }} --query taskDefinition > task-definition.json
 
-      - name: Change Image Tag for Puma Container
-        id: container-1
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: task-definition.json
-          container-name: ${{ secrets.ECS_CONTAINER_1 }}
-          image: ${{ secrets.ECR_REPO }}:${{ github.sha }}
+#      - name: Change Image Tag for Puma Container
+#        id: container-1
+#        uses: aws-actions/amazon-ecs-render-task-definition@v1
+#        with:
+#          task-definition: task-definition.json
+#          container-name: ${{ secrets.ECS_CONTAINER_1 }}
+#          image: ${{ secrets.ECR_REPO }}:${{ github.sha }}
 
-      - name: Change Image Tag for Sneaker Container
-        id: container-2
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ steps.container-1.outputs.task-definition }}
-          container-name: ${{ secrets.ECS_CONTAINER_2 }}
-          image: ${{ secrets.ECR_REPO }}:${{ github.sha }}
+#      - name: Change Image Tag for Sneaker Container
+#        id: container-2
+#        uses: aws-actions/amazon-ecs-render-task-definition@v1
+#        with:
+#          task-definition: ${{ steps.container-1.outputs.task-definition }}
+#          container-name: ${{ secrets.ECS_CONTAINER_2 }}
+#          image: ${{ secrets.ECR_REPO }}:${{ github.sha }}
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition:  ${{ steps.container-2.outputs.task-definition }}
-          service: ${{ secrets.ECR_SERVICE }}
-          cluster: ${{ secrets.ECR_STAGING_CLUSTER }}
-          wait-for-service-stability: true
+#ECS Refresh
+#      - name: Deploy Amazon ECS task definition
+#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#        with:
+#          task-definition:  ${{ steps.container-2.outputs.task-definition }}
+#          service: ${{ secrets.ECR_SERVICE }}
+#          cluster: ${{ secrets.ECR_STAGING_CLUSTER }}
+#          wait-for-service-stability: true
