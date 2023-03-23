@@ -30,3 +30,26 @@ resource "aws_s3_bucket_public_access_block" "mmm1example" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+  bucket = aws_s3_bucket.mmm1example.id
+  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
+}
+
+data "aws_iam_policy_document" "allow_access_from_another_account" {
+  statement {
+    principals {
+        "*"
+    }
+
+    actions = [
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+    ]
+
+    resources = [
+      aws_s3_bucket.mmm1example.arn,
+      "${aws_s3_bucket.mmm1example.arn}/*",
+    ]
+  }
+}
