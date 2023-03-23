@@ -4,6 +4,8 @@ module "tf-sg-alb-nonprod" {
   name        = "tf-sg-alb-nonprod"
   vpc_id      = module.vpc-nonprod.vpc_id
 
+  egress_cidr_blocks       = ["0.0.0.0/0"]
+  egress_rules             = ["all-all"]
   ingress_cidr_blocks      = ["0.0.0.0/0"]
   ingress_rules            = ["https-443-tcp", "http-80-tcp"]
 
