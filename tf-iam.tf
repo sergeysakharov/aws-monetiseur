@@ -26,6 +26,42 @@ resource "aws_iam_user" "tf-github" {
     name = "tf-github"
 }
 
+#dev user
+resource "aws_iam_group" "developers" {
+  name = "developers"
+  path = "/"
+}
+
+data "aws_iam_policy" "developers_access" {
+  name = "DevelopersAccess"
+}
+
+resource "aws_iam_group_policy_attachment" "developers" {
+  group      = aws_iam_group.developers.name
+  policy_arn = data.aws_iam_policy.developers_access.arn
+}
+
+resource "aws_iam_user" "developer" {
+  name = "developer"
+}
+
+resource "aws_iam_user_group_membership" "devstream" {
+  user   = aws_iam_user.developer.name
+  groups = [aws_iam_group.developers.name]
+}
+
+resource "aws_iam_user_login_profile" "administrator" {
+  user                    = aws_iam_user.developer.name
+  password_reset_required = false
+}
+
+output "password" {
+  value     = aws_iam_user_login_profile.administrator.password
+  sensitive = false
+}
+
+
+
 #ECS Roles
 
 resource "aws_iam_role" "ecs_task_execution_role" {
