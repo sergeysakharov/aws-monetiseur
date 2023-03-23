@@ -62,7 +62,7 @@ resource "aws_iam_user_login_profile" "tf-new" {
   password_reset_required = false
 }
 
-output "password" {
+output "password-tf-new" {
   value     = aws_iam_user_login_profile.tf-new.password
   sensitive = false
 }
