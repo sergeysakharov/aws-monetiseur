@@ -9,19 +9,19 @@ module "tf-alb-nonprod" {
   vpc_id             = module.vpc-nonprod.vpc_id
   subnets            = module.vpc-nonprod.private_subnets
   security_groups    = ["tf-sg-alb-nonprod"]
-  target_group_names = ["tf-alb-tgdefault-nonprod"]
+  #target_group_names = ["tf-alb-tgdefault-nonprod"]
   
   #access_logs = {
   #  bucket = "my-alb-logs"
   #}
 
-  #target_groups = [
-  #  {
-  #    name_prefix      = "pref-"
-  #    backend_protocol = "HTTP"
-  #    backend_port     = 80
-  #    target_type      = "instance"
-  #    targets = [
+  target_groups = [
+    {
+      name_prefix      = "pref-"
+      backend_protocol = "HTTP"
+      backend_port     = 80
+      target_type      = "instance"
+      targets = [
   #      {
   #        target_id = "i-0123456789abcdefg"
   #        port = 80
@@ -30,9 +30,9 @@ module "tf-alb-nonprod" {
   #        target_id = "i-a1b2c3d4e5f6g7h8i"
   #        port = 8080
   #      }
-  #    ]
-  #  }
-  #]
+      ]
+    }
+  ]
 
   https_listeners = [
     {
