@@ -21,3 +21,7 @@ policy = <<EOF
 }
 EOF
 }
+
+resource "aws_iam_user" "tf-github" {
+    name = "tf-github"
+}
