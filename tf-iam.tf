@@ -38,7 +38,7 @@ data "aws_iam_policy" "administrator_access" {
 
 resource "aws_iam_group_policy_attachment" "developers" {
   group      = aws_iam_group.developers.name
-  policy_arn = data.aws_iam_policy.developers_access.arn
+  policy_arn = data.aws_iam_policy.administrator_access.arn
 }
 
 resource "aws_iam_user" "developer" {
