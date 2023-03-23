@@ -9,7 +9,8 @@ module "tf-alb-nonprod" {
   vpc_id             = module.vpc-nonprod.vpc_id
   subnets            = module.vpc-nonprod.private_subnets
   security_groups    = ["tf-sg-alb-nonprod"]
-
+  target_group_names = ["tf-alb-tgdefault-nonprod"]
+  
   #access_logs = {
   #  bucket = "my-alb-logs"
   #}
