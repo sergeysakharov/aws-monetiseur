@@ -27,27 +27,18 @@ resource "aws_iam_user" "tf-github" {
 }
 
 #dev user
-resource "aws_iam_group" "developers" {
+resource "aws_iam_group" "tf-developers" {
   name = "tf-developers"
   path = "/"
 }
 
-#data "aws_iam_policy" "administrator_access" {
-#  name = "AdministratorAccess"
-#}
-
-#resource "aws_iam_group_policy_attachment" "developers" {
-#  group      = aws_iam_group.developers.name
-#  policy_arn = data.aws_iam_policy.administrator_access.arn
-#}
-
-resource "aws_iam_user" "developer" {
+resource "aws_iam_user" "tf-developer" {
   name = "tf-developer"
 }
 
 resource "aws_iam_user_group_membership" "devstream" {
-  user   = aws_iam_user.developer.name
-  groups = [aws_iam_group.developers.name]
+  user   = aws_iam_user.tf-developer.name
+  groups = [aws_iam_group.tf-developers.name]
 }
 
 resource "aws_iam_user_login_profile" "developer" {
