@@ -72,3 +72,12 @@ resource "aws_db_instance" "tf-rds-nonprod" {
   }
 
 }
+
+resource "aws_security_group" "tf-sg-rds-nonprod" {
+  name = "tf-sg-rds-nonprod"
+}
+
+resource "aws_elasticache_security_group" "tf-esg-rds-nonprod" {
+  name                 = "tf-esg-rds-nonprod"
+  security_group_names = ["${aws_security_group.tf-sg-rds-nonprod.name}"]
+}
