@@ -14,24 +14,24 @@ module "tf-alb-nonprod" {
   #  bucket = "my-alb-logs"
   #}
 
-  target_groups = [
-    {
-      name_prefix      = "pref-"
-      backend_protocol = "HTTP"
-      backend_port     = 80
-      target_type      = "instance"
-      targets = [
-        {
-          target_id = "i-0123456789abcdefg"
-          port = 80
-        },
-        {
-          target_id = "i-a1b2c3d4e5f6g7h8i"
-          port = 8080
-        }
-      ]
-    }
-  ]
+  #target_groups = [
+  #  {
+  #    name_prefix      = "pref-"
+  #    backend_protocol = "HTTP"
+  #    backend_port     = 80
+  #    target_type      = "instance"
+  #    targets = [
+  #      {
+  #        target_id = "i-0123456789abcdefg"
+  #        port = 80
+  #      },
+  #      {
+  #        target_id = "i-a1b2c3d4e5f6g7h8i"
+  #        port = 8080
+  #      }
+  #    ]
+  #  }
+  #]
 
   https_listeners = [
     {
