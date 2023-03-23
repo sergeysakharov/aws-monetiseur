@@ -36,8 +36,14 @@ resource "aws_iam_user" "tf-developer" {
   name = "tf-developer"
 }
 
-resource "aws_iam_user_group_membership" "devstream" {
-  user   = aws_iam_user.tf-developer.name
+resource "aws_iam_group_membership" "tf-group-members" {
+  name = "tf-new-group-membership"
+
+  users = [
+    aws_iam_user.tf-developer.name,
+    aws_iam_user.tf-new.name,
+  ]
+
   group = aws_iam_group.tf-developers.name
 }
 
