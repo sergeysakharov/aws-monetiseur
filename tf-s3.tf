@@ -18,12 +18,12 @@ module "s3-bucket-env" {
 
 }
 
-resource "aws_s3_bucket" "example" {
-  bucket = "example"
+resource "aws_s3_bucket" "mmm1example" {
+  bucket = "mmm1-example"
 }
 
-resource "aws_s3_bucket_public_access_block" "example" {
-  bucket = aws_s3_bucket.example.id
+resource "aws_s3_bucket_public_access_block" "mmm1example" {
+  bucket = aws_s3_bucket.mmm1example.id
 
   block_public_acls       = true
   block_public_policy     = true
