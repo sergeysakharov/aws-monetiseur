@@ -41,7 +41,7 @@ resource "aws_iam_user_group_membership" "devstream" {
   groups = [aws_iam_group.tf-developers.name]
 }
 
-resource "aws_iam_user_login_profile" "developer" {
+resource "aws_iam_user_login_profile" "tf-developer" {
   user                    = aws_iam_user.tf-developer.name
   password_reset_required = false
 }
