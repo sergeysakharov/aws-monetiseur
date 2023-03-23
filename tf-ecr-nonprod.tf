@@ -3,6 +3,7 @@ module "ecr-nonprod" {
 
   repository_name = "${var.project}-nonprod"
 
+  repository_image_tag_mutability = MUTABLE
   repository_read_write_access_arns = ["arn:aws:iam::938978445243:user/tf"]
   repository_lifecycle_policy = jsonencode({
     rules = [
