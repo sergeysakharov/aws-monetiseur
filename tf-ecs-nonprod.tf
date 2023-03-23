@@ -8,7 +8,7 @@ module "tf-ecs-cluster-nonprod" {
 
   component = "tf"
   deployment_identifier = ""
-  associate_public_ip_addresses = false
+  associate_public_ip_addresses = true
   cluster_name = "ecs-nonprod"
 #  cluster_instance_ssh_public_key_path = "~/.ssh/id_rsa.pub"
   cluster_instance_type = "t3a.small"
