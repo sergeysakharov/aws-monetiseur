@@ -8,7 +8,7 @@ module "tf-sg-rmq-nonprod" {
 #  ingress_rules            = ["https-443-tcp"]
   ingress_with_cidr_blocks = [
     {
-      rule        = "redis-tcp"
+      rule        = "rabbitmq-5672-tcp"
       cidr_blocks = "10.0.0.0/16"
     },
   ]
