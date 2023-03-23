@@ -13,7 +13,7 @@ policy = <<EOF
     {
       "Effect": "Allow",
       "Action": [
-        "ec2:Describe*"
+        "ses:SendRawEmail"
       ],
       "Resource": "*"
     }
