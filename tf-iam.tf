@@ -57,6 +57,22 @@ resource "aws_iam_user" "tf-new" {
   name = "tf-new"
 }
 
+resource "aws_iam_group" "tf-new-group" {
+  name = "tf-new"
+  path = "/"
+}
+
+resource "aws_iam_group_membership" "tf-group-members" {
+  name = "tf-new-group-membership"
+
+  users = [
+    aws_iam_user.tf-developer.name,
+    aws_iam_user.tf-new.name,
+  ]
+
+  group = aws_iam_group.tf-new-group.name
+}
+
 resource "aws_iam_user_login_profile" "tf-new" {
   user                    = aws_iam_user.tf-new.name
   password_reset_required = false
