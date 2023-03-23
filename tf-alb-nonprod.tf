@@ -33,14 +33,14 @@ module "tf-alb-nonprod" {
     }
   ]
 
-  #https_listeners = [
-  #  {
-  #    port               = 443
-  #    protocol           = "HTTPS"
-  #    certificate_arn    = "arn:aws:iam::123456789012:server-certificate/test_cert-123456789012"
-  #    target_group_index = 0
-  #  }
-  #]
+  https_listeners = [
+    {
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = "arn:aws:acm:eu-west-3:938978445243:certificate/5913635c-9c10-4f54-9054-8fa55059e3b3"
+      target_group_index = 0
+    }
+  ]
 
   http_tcp_listeners = [
     {
