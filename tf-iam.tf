@@ -36,7 +36,7 @@ resource "aws_iam_user" "tf-developer" {
   name = "tf-developer"
 }
 
-resource "aws_iam_group_membership" "tf-group-members" {
+resource "aws_iam_group_membership" "tf-tfdevelopers-members" {
   name = "tf-new-group-membership"
 
   users = [
@@ -68,7 +68,7 @@ resource "aws_iam_group" "tf-new-group" {
   path = "/"
 }
 
-resource "aws_iam_group_membership" "tf-group-members" {
+resource "aws_iam_group_membership" "tf-tfnew-members" {
   name = "tf-new-group-membership"
 
   users = [
