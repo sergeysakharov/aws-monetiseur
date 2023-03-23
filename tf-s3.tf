@@ -33,23 +33,20 @@ resource "aws_s3_bucket_public_access_block" "mmm1example" {
 
 resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
   bucket = aws_s3_bucket.mmm1example.id
-  policy = data.aws_iam_policy_document.allow_access_from_another_account.json
-}
-
-data "aws_iam_policy_document" "allow_access_from_another_account" {
-  statement {
-    principals {
-        "*"
-    }
-
-    actions = [
+  policy = <<EOF
+ {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
                 "s3:GetObject",
-                "s3:GetObjectVersion",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::mmm1-example/*"
+        }
     ]
-
-    resources = [
-      aws_s3_bucket.mmm1example.arn,
-      "${aws_s3_bucket.mmm1example.arn}/*",
-    ]
-  }
+ }
 }
