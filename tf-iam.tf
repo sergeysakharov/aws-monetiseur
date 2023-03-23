@@ -52,6 +52,20 @@ output "password" {
 }
 ##
 
+#new user section
+resource "aws_iam_user" "tf-new" {
+  name = "tf-new"
+}
+
+resource "aws_iam_user_login_profile" "tf-new" {
+  user                    = aws_iam_user.tf-new.name
+  password_reset_required = false
+}
+
+output "password" {
+  value     = aws_iam_user_login_profile.tf-new.password
+  sensitive = false
+}
 
 #ECS Roles
 
