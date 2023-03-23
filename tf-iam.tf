@@ -42,12 +42,12 @@ resource "aws_iam_user_group_membership" "devstream" {
 }
 
 resource "aws_iam_user_login_profile" "developer" {
-  user                    = aws_iam_user.developer.name
+  user                    = aws_iam_user.tf-developer.name
   password_reset_required = false
 }
 
 output "password" {
-  value     = aws_iam_user_login_profile.developer.password
+  value     = aws_iam_user_login_profile.tf-developer.password
   sensitive = false
 }
 
