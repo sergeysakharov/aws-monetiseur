@@ -28,12 +28,12 @@ resource "aws_iam_user" "tf-github" {
 
 #dev user
 resource "aws_iam_group" "developers" {
-  name = "developers"
+  name = "tf-developers"
   path = "/"
 }
 
-data "aws_iam_policy" "developers_access" {
-  name = "DevelopersAccess"
+data "aws_iam_policy" "administrator_access" {
+  name = "AdministratorAccess"
 }
 
 resource "aws_iam_group_policy_attachment" "developers" {
@@ -42,7 +42,7 @@ resource "aws_iam_group_policy_attachment" "developers" {
 }
 
 resource "aws_iam_user" "developer" {
-  name = "developer"
+  name = "tf-developer"
 }
 
 resource "aws_iam_user_group_membership" "devstream" {
@@ -50,13 +50,13 @@ resource "aws_iam_user_group_membership" "devstream" {
   groups = [aws_iam_group.developers.name]
 }
 
-resource "aws_iam_user_login_profile" "administrator" {
+resource "aws_iam_user_login_profile" "developer" {
   user                    = aws_iam_user.developer.name
   password_reset_required = false
 }
 
 output "password" {
-  value     = aws_iam_user_login_profile.administrator.password
+  value     = aws_iam_user_login_profile.developer.password
   sensitive = false
 }
 
