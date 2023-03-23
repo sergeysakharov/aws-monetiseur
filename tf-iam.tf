@@ -5,7 +5,7 @@ resource "aws_iam_user" "tf-iam-ses" {
 resource "aws_iam_user_policy" "tf-iam-ses-policy" {
 #  count = length(var.username)
   name = "tf-iam-ses-policy"
-  user = tf-ses
+  user = "tf-ses"
 policy = <<EOF
 {
   "Version": "2012-10-17",
