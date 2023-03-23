@@ -9,7 +9,7 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   engine_version       = "7.0"
   port                 = 6379
   subnet_group_name    = "${aws_elasticache_subnet_group.tf-redis-subnet-group.name}"
-
+  security_group_ids   = module.tf-sg-redis-nonprod.id
   tags = {
     Terraform = "true"
     Environment = var.envnonprod
@@ -42,11 +42,11 @@ resource "aws_elasticache_subnet_group" "tf-redis-subnet-group" {
 
 }
 
-resource "aws_security_group" "tf-sg-redis-dev-nonprod" {
-  name = "tf-sg-redis-dev-nonprod"
-}
+#resource "aws_security_group" "tf-sg-redis-dev-nonprod" {
+#  name = "tf-sg-redis-dev-nonprod"
+#}
 
-resource "aws_elasticache_security_group" "tf-esg-redis-dev-nonprod" {
-  name                 = "tf-esg-redis-dev-nonprod"
-  security_group_names = ["${aws_security_group.tf-sg-redis-dev-nonprod.name}"]
-}
+#resource "aws_elasticache_security_group" "tf-esg-redis-dev-nonprod" {
+#  name                 = "tf-esg-redis-dev-nonprod"
+#  security_group_names = ["${aws_security_group.tf-sg-redis-dev-nonprod.name}"]
+#}
