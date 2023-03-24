@@ -2,6 +2,10 @@ resource "aws_iam_user" "tf-iam-ses" {
     name = "tf-ses"
 }
 
+resource "aws_iam_user" "tf-iam-cognito" {
+    name = "tf-cognito"
+}
+
 resource "aws_iam_user_policy" "tf-iam-ses-policy" {
 #  count = length(var.username)
   name = "tf-iam-ses-policy"
