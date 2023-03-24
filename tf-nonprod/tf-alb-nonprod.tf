@@ -16,7 +16,7 @@ module "tf-alb-nonprod" {
 
   target_groups = [
     {
-      name_prefix      = "empty-"
+      name_prefix      = "tf-empty-"
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
