@@ -7,7 +7,7 @@ module "tf-alb-nonprod" {
   load_balancer_type = "application"
 
   vpc_id             = module.vpc-nonprod.vpc_id
-  subnets            = module.vpc-nonprod.private_subnets
+  subnets            = module.vpc-nonprod.public_subnets
   security_groups    = [module.tf-sg-alb-nonprod.security_group_id]
   
   #access_logs = {
