@@ -30,43 +30,28 @@ jobs:
       - name: Set up Docker Build
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and push Docker image
+      - name: BACKEND Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: ./
           file: ./backend.dockerfile
-#          secrets:
-#            "GEMS_USERNAME_PASSWORD=${{ secrets.BUNDLE_GEMS__MATCHSPACE__COM }}"
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.ECR_REPO_NONPROD }}:${{ github.sha }}
-#          tags: ${{ secrets.ECR_REPO }}:${{ github.sha }}
+          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:backend-latest        
 
-#      - name: Download task definition
+      - name: CELERY Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./
+          file: ./celeryworker.dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:celery-latest    
+
+      - name: Force ECS Backend Services restart
         run: |
-          aws ecs describe-task-definition --task-definition ${{ secrets.ECS_TASKDEFINATION }} --query taskDefinition > task-definition.json
+          aws ecs update-service --cluster tf--ecs-nonprod --service service-dev-backend --force-new-deployment
 
-#      - name: Change Image Tag for Puma Container
-#        id: container-1
-#        uses: aws-actions/amazon-ecs-render-task-definition@v1
-#        with:
-#          task-definition: task-definition.json
-#          container-name: ${{ secrets.ECS_CONTAINER_1 }}
-#          image: ${{ secrets.ECR_REPO }}:${{ github.sha }}
-
-#      - name: Change Image Tag for Sneaker Container
-#        id: container-2
-#        uses: aws-actions/amazon-ecs-render-task-definition@v1
-#        with:
-#          task-definition: ${{ steps.container-1.outputs.task-definition }}
-#          container-name: ${{ secrets.ECS_CONTAINER_2 }}
-#          image: ${{ secrets.ECR_REPO }}:${{ github.sha }}
-
-#ECS Refresh
-#      - name: Deploy Amazon ECS task definition
-#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#        with:
-#          task-definition:  ${{ steps.container-2.outputs.task-definition }}
-#          service: ${{ secrets.ECR_SERVICE }}
-#          cluster: ${{ secrets.ECR_STAGING_CLUSTER }}
-#          wait-for-service-stability: true
+      - name: Force ECS Celery Services restart
+        run: |
+          aws ecs update-service --cluster tf--ecs-nonprod --service service-dev-celery --force-new-deployment
