@@ -9,6 +9,11 @@ variable "envnonprod" {
   default = "nonprod"
 }
 
+variable "envprod" {
+  type    = string
+  default = "prod"
+}
+
 variable "project" {
   type    = string
   default = "monetiseur"
