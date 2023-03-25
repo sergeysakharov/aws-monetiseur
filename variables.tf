@@ -9,6 +9,16 @@ variable "envnonprod" {
   default = "nonprod"
 }
 
+variable "envdev" {
+  type    = string
+  default = "dev"
+}
+
+variable "envstaging" {
+  type    = string
+  default = "staging"
+}
+
 variable "envprod" {
   type    = string
   default = "prod"
