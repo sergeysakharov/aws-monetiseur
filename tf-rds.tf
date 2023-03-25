@@ -80,7 +80,7 @@ resource "aws_db_instance" "tf-rds-dev" {
   engine                 = "postgres"
   engine_version         = "14.7"
   username               = "psqladmin"
-  password               = var.pgsql-dev-password
+  password               = var.pgsql-nonprod-password
   db_subnet_group_name   = aws_db_subnet_group.tf-rds-nonprod-subnet-group.name
   vpc_security_group_ids = [aws_security_group.tf-sg-rds-nonprod.id]
   parameter_group_name   = aws_db_parameter_group.tf-rds-nonprod-param-group.name
@@ -102,7 +102,7 @@ resource "aws_db_instance" "tf-rds-staging" {
   engine                 = "postgres"
   engine_version         = "14.7"
   username               = "psqladmin"
-  password               = var.pgsql-staging-password
+  password               = var.pgsql-nonprod-password
   db_subnet_group_name   = aws_db_subnet_group.tf-rds-nonprod-subnet-group.name
   vpc_security_group_ids = [aws_security_group.tf-sg-rds-nonprod.id]
   parameter_group_name   = aws_db_parameter_group.tf-rds-nonprod-param-group.name
