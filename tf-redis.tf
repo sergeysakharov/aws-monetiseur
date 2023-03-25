@@ -1,7 +1,7 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticache_cluster
 
 resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
-  cluster_id           = "tf-redis-dev-nonprod"
+  cluster_id           = "tf-redis-dev"
   engine               = "redis"
   node_type            = "cache.t2.micro"
   num_cache_nodes      = 1
@@ -12,7 +12,25 @@ resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   security_group_ids   = [module.tf-sg-redis-nonprod.security_group_id]
   tags = {
     Terraform = "true"
-    Environment = var.envnonprod
+    Environment = var.envdev
+    Project = var.project
+  }
+
+}
+
+resource "aws_elasticache_cluster" "tf-redis-staging-nonprod" {
+  cluster_id           = "tf-redis-staging"
+  engine               = "redis"
+  node_type            = "cache.t2.micro"
+  num_cache_nodes      = 1
+  parameter_group_name = "default.redis7"
+  engine_version       = "7.0"
+  port                 = 6379
+  subnet_group_name    = "${aws_elasticache_subnet_group.tf-redis-subnet-group.name}"
+  security_group_ids   = [module.tf-sg-redis-nonprod.security_group_id]
+  tags = {
+    Terraform = "true"
+    Environment = var.envstaging
     Project = var.project
   }
 
