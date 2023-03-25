@@ -1,6 +1,6 @@
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticache_cluster
 
-resource "aws_elasticache_cluster" "tf-redis-dev" {
+resource "aws_elasticache_cluster" "tf-redis-dev-nonprod" {
   cluster_id           = "tf-redis-dev"
   engine               = "redis"
   node_type            = "cache.t2.micro"
@@ -18,7 +18,7 @@ resource "aws_elasticache_cluster" "tf-redis-dev" {
 
 }
 
-resource "aws_elasticache_cluster" "tf-redis-staging" {
+resource "aws_elasticache_cluster" "tf-redis-staging-nonprod" {
   cluster_id           = "tf-redis-staging"
   engine               = "redis"
   node_type            = "cache.t2.micro"
