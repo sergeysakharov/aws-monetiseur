@@ -1,14 +1,14 @@
-name: Deployment to Dev environment
+name: Deployment to Staging environment
 
 on:
   workflow_dispatch:
   push:
-    branches: ['dev']
+    branches: ['staging']
 jobs:
   build:
     name: Build and Deploy to ECS
     runs-on: ubuntu-latest
-    environment: dev
+    environment: staging
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -34,11 +34,24 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./
-          file: ./Dockerfile
+          file: ./backend.dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:frontend-dev-latest        
+          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:backend-staging-latest        
+
+      - name: CELERY Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: ./
+          file: ./celeryworker.dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:celery-staging-latest    
 
       - name: Force ECS Backend Services restart
         run: |
-          aws ecs update-service --cluster tf--ecs-nonprod --service service-dev-frontend --force-new-deployment
+          aws ecs update-service --cluster tf--ecs-nonprod --service service-staging-backend --force-new-deployment
+
+      - name: Force ECS Celery Services restart
+        run: |
+          aws ecs update-service --cluster tf--ecs-nonprod --service service-staging-celery --force-new-deployment
