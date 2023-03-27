@@ -6,7 +6,7 @@ resource "aws_iam_user" "tf-iam-s3" {
     name = "tf-s3"
 }
 resource "aws_iam_user_policy_attachment" "tf-iam-s3-AmazonS3FullAccess" {
-  user       = aws_iam_user.tf-iam-s3
+  user       = aws_iam_user.tf-iam-s3.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
