@@ -2,6 +2,10 @@ resource "aws_iam_user" "tf-iam-ses" {
     name = "tf-ses"
 }
 
+resource "aws_iam_user" "tf-iam-s3" {
+    name = "tf-s3"
+}
+
 resource "aws_iam_user" "tf-iam-cognito" {
     name = "tf-cognito"
 }

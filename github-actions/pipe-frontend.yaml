@@ -34,24 +34,11 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./
-          file: ./backend.dockerfile
+          file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:backend-dev-latest        
-
-      - name: CELERY Build and push Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: ./
-          file: ./celeryworker.dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: true
-          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:celery-dev-latest    
+          tags: 938978445243.dkr.ecr.eu-west-3.amazonaws.com/monetiseur-nonprod:frontend-dev-latest        
 
       - name: Force ECS Backend Services restart
         run: |
           aws ecs update-service --cluster tf--ecs-nonprod --service service-dev-backend --force-new-deployment
-
-      - name: Force ECS Celery Services restart
-        run: |
-          aws ecs update-service --cluster tf--ecs-nonprod --service service-dev-celery --force-new-deployment
