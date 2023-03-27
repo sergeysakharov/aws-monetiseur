@@ -5,6 +5,10 @@ resource "aws_iam_user" "tf-iam-ses" {
 resource "aws_iam_user" "tf-iam-s3" {
     name = "tf-s3"
 }
+resource "aws_iam_user_policy_attachment" "tf-iam-s3-AmazonS3FullAccess" {
+  user       = aws_iam_user.tf-iam-s3
+  policy_arn = aws_iam_policy.arn:aws:iam::aws:policy/AmazonS3FullAccess
+}
 
 resource "aws_iam_user" "tf-iam-cognito" {
     name = "tf-cognito"
