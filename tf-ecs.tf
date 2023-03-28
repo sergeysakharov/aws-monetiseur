@@ -13,9 +13,9 @@ module "tf-ecs-cluster-nonprod" {
 #  cluster_instance_ssh_public_key_path = "~/.ssh/id_rsa.pub"
   cluster_instance_type = "t3a.small"
   enable_container_insights = true
-  cluster_minimum_size = 1
+  cluster_minimum_size = 2
   cluster_maximum_size = 3
-  cluster_desired_capacity = 1
+  cluster_desired_capacity = 2
   include_asg_capacity_provider = true
   asg_capacity_provider_manage_scaling = true
  
